@@ -7,7 +7,14 @@
 RUBY_VERSION="1.9.3"
 LOG_FILE="$HOME/install.log"
 
-echo "Rails Installer started"
+
+echo "Installing Curl"
+sudo apt-get -y install curl >>$LOG_FILE
+echo "...........Done..................."
+
+echo "Installing RVM"
+curl -L ge://get.rvm.io | bash -s stable --autolibs=3 --ruby
+[ "$(type -t rvm)" = "function" ] || source ~/.rvm/scripts/rvm
 
 # Installing Dependencies
 echo ".......Updating package cache....."
@@ -18,21 +25,6 @@ echo "..........Installing git.........."
 sudo apt-get -y install git >>$LOG_FILE
 echo "..........Done...................."
 
-echo "Installing Curl"
-sudo apt-get -y install curl >>$LOG_FILE
-echo "...........Done..................."
-
-
-# Install RVM (Ruby Version Manager)
-echo ".....Installing RVM.............."
-curl -L get.rvm.io | bash -s stable >>$LOG_FILE
-
-# fallback for the above command (in case of certificates errors)
-#if ($? !=0)
-# then
-#  curl -kL get.rvm.io | bash -s stable
-#fi  
-
 echo "............DONE.........."
 echo "......Loading RVM.........."
 source ~/.rvm/scripts/rvm >>$LOG_FILE
@@ -40,7 +32,7 @@ echo "...........Done..........."
 
 # Install Additional Dependencies
 
-sudo apt-get -y install build-essential openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
+sudo apt-get -y install build-essential openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev
 
 # Install nodejs from the PPA
 sudo apt-add-repository -y ppa:chris-lea/node.js
@@ -68,6 +60,9 @@ echo "if you want to change that then use 'rvm --default <ruby_version>' "
 # Install Latest version of Rails
 echo "..........Installing Rails gem................"
 gem install rails >>$LOG_FILE
+
+A
+t.rvm.io | bash -s stable >>$LOG_FILE
 echo ".........Done"
 
 
@@ -76,3 +71,7 @@ echo "###### Installation Completed ########"
 echo "######################################"
 
 echo "if something went wrong then checkout the log file $LOG_FILE"
+
+echo "Installing Vim spf"
+sudo apt-get install vim
+curl http://j.mp/spf13-vim3 -L > spf13-vim.sh && sh spf13-vim.sh
